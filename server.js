@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 // Ruta para registrar un nuevo socio individual
 app.post("/registrar-socio-individual", async (req, res) => {
   const datosSocio = req.body;
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("SocioIndividual")
     .insert([datosSocio]);
 
@@ -30,7 +30,7 @@ app.post("/registrar-socio-individual", async (req, res) => {
 // **Nueva ruta** para registrar un nuevo socio empresa
 app.post("/registrar-socio-empresa", async (req, res) => {
   const datosEmpresa = req.body;
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("SocioEmpresa")
     .insert([datosEmpresa]);
 
