@@ -1,13 +1,17 @@
-// supabaseClient.js
 import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
 
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY;
+// Cargar variables de entorno
+dotenv.config();
 
-if (!SUPABASE_URL || !SUPABASE_KEY) {
+// Variables de entorno de Supabase
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+
+// Validar si las variables de entorno están definidas
+if (!supabaseUrl || !supabaseKey) {
   throw new Error("SUPABASE_URL y SUPABASE_KEY son requeridos");
 }
 
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-export { supabaseClient };
+// Crear cliente de Supabase
+export const supabase = createClient(supabaseUrl, supabaseKey);
