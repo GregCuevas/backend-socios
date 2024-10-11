@@ -20,7 +20,6 @@ app.post("/registrar-socio-individual", async (req, res) => {
     nombres,
     apellidos,
     cedula,
-    foto_cedula,
     telefono,
     email,
     direccion,
@@ -32,20 +31,31 @@ app.post("/registrar-socio-individual", async (req, res) => {
 
   // Validar que los campos requeridos estén presentes
   if (!nombres || !apellidos || !cedula || !telefono || !email) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "Los campos nombres, apellidos, cedula, telefono y email son requeridos",
-      });
+    return res.status(400).json({
+      error:
+        "Los campos nombres, apellidos, cedula, telefono y email son requeridos",
+    });
+  }
+  // Verificar si la cédula ya está registrada en la base de datos
+  const { data: existingData, error: existingError } = await supabase
+    .from("SocioIndividual")
+    .select("*")
+    .eq("cedula", cedula);
+
+  if (existingError) {
+    return res.status(500).json({ error: existingError.message });
   }
 
+  if (existingData && existingData.length > 0) {
+    return res.status(400).json({
+      error: "La cédula ya está registrada en el sistema.",
+    });
+  }
   // Crear objeto con los datos del socio
   const socioData = {
     nombres,
     apellidos,
     cedula,
-    foto_cedula,
     telefono,
     email,
     direccion,
