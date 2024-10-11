@@ -6,7 +6,11 @@ import cors from "cors";
 import { supabase } from "./supabaseClient.js";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://www.coopebred.com/", // Reemplaza con el dominio de tu frontend
+  })
+);
 app.use(express.json()); // Middleware para interpretar JSON
 
 // Ruta para verificar si el backend está funcionando
