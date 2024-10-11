@@ -8,7 +8,9 @@ import { supabase } from "./supabaseClient.js";
 const app = express();
 app.use(
   cors({
-    origin: "https://www.coopebred.com/", // Reemplaza con el dominio de tu frontend
+    origin: "https://www.coopedbred.com", // Reemplaza con el dominio de tu frontend
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json()); // Middleware para interpretar JSON
