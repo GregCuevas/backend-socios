@@ -116,7 +116,7 @@ app.post("/registrar-socio-empresa", async (req, res) => {
     municipio_gerente,
     provincia_gerente,
     razon_social_empresa,
-    rnc_empresa,
+    rnc_empresa: rnc_empresa ? rnc_empresa : null,
     registro_mercantil,
     actividad_economica, // Aquí asegurarse de que el nombre coincida con el de la tabla
     direccion_empresa,
