@@ -86,7 +86,44 @@ app.post("/registrar-socio-individual", async (req, res) => {
 
 // Ruta para registrar un nuevo socio empresa
 app.post("/registrar-socio-empresa", async (req, res) => {
-  const datosEmpresa = req.body;
+  const {
+    tipoSocio,
+    nombres,
+    apellidos,
+    cedulaIdentidad,
+    telefono,
+    email,
+    direccionResidencia,
+    municipio,
+    provincia,
+    razonSocial,
+    rnc,
+    registroMercantil,
+    actividadEconomica,
+    direccionEmpresa,
+    telefonoEmpresa,
+    emailEmpresa,
+  } = req.body;
+  // Crear objeto con los datos del socio empresa
+  const datosEmpresa = {
+    tipoSocio,
+    nombres,
+    apellidos,
+    cedulaIdentidad,
+    telefono,
+    email,
+    direccionResidencia,
+    municipio,
+    provincia,
+    razonSocial,
+    rnc,
+    registroMercantil,
+    actividadEconomica,
+    direccionEmpresa,
+    telefonoEmpresa,
+    emailEmpresa,
+    fechaCreacion: new Date().toISOString(),
+  };
 
   // Insertar los datos en la tabla SocioEmpresa en Supabase
   const { data, error } = await supabase
