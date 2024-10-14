@@ -42,7 +42,6 @@ app.post("/registrar-socio-individual", async (req, res) => {
         "Los campos nombres, apellidos, cedula, telefono y email son requeridos",
     });
   }
-
   // Verificar si la cédula ya está registrada en la base de datos
   const { data: existingData, error: existingError } = await supabase
     .from("SocioIndividual")
@@ -58,7 +57,6 @@ app.post("/registrar-socio-individual", async (req, res) => {
       error: "La cédula ya está registrada en el sistema.",
     });
   }
-
   // Crear objeto con los datos del socio
   const socioData = {
     nombres,
@@ -74,20 +72,16 @@ app.post("/registrar-socio-individual", async (req, res) => {
     fecha_creacion: new Date().toISOString(),
   };
 
-  // Intentar insertar los datos y controlar cualquier error
-  try {
-    const { data, error } = await supabase
-      .from("SocioIndividual")
-      .insert([socioData]);
+  // Insertar los datos en la tabla SocioIndividual en Supabase
+  const { data, error } = await supabase
+    .from("SocioIndividual")
+    .insert([socioData]);
 
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return res.status(200).json({ data });
-  } catch (error) {
+  if (error) {
     return res.status(500).json({ error: error.message });
   }
+
+  return res.status(200).json({ data });
 });
 
 // Ruta para registrar un nuevo socio empresa
@@ -110,21 +104,6 @@ app.post("/registrar-socio-empresa", async (req, res) => {
     telefono_empresa,
     email_empresa,
   } = req.body;
-
-  // Validar que los campos requeridos estén presentes
-  if (
-    !nombres_gerente ||
-    !apellidos_gerente ||
-    !cedula_gerente ||
-    !telefono_gerente ||
-    !email_gerente
-  ) {
-    return res.status(400).json({
-      error:
-        "Los campos nombres del gerente, apellidos, cedula, telefono y email son requeridos",
-    });
-  }
-
   // Crear objeto con los datos del socio empresa
   const datosEmpresa = {
     tipo_socio_empresa,
@@ -139,27 +118,23 @@ app.post("/registrar-socio-empresa", async (req, res) => {
     razon_social_empresa,
     rnc_empresa,
     registro_mercantil,
-    actividad_economica,
+    actividad_economica, // Aquí asegurarse de que el nombre coincida con el de la tabla
     direccion_empresa,
     telefono_empresa,
     email_empresa,
     fecha_creacion: new Date().toISOString(),
   };
 
-  try {
-    // Insertar los datos en la tabla SocioEmpresa en Supabase
-    const { data, error } = await supabase
-      .from("SocioEmpresa")
-      .insert([datosEmpresa]);
+  // Insertar los datos en la tabla SocioEmpresa en Supabase
+  const { data, error } = await supabase
+    .from("SocioEmpresa")
+    .insert([datosEmpresa]);
 
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return res.status(200).json({ data });
-  } catch (error) {
+  if (error) {
     return res.status(500).json({ error: error.message });
   }
+
+  return res.status(200).json({ data });
 });
 
 // Escuchar en el puerto configurado en el .env o en el puerto 5000
